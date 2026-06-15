@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Truth About Northanger Abbey — Issue 1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Oswald:wght@300;400;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --crimson:   #8B1A2A;
+    --gold:      #C8922A;
+    --dark:      #1A1008;
+    --cream:     #FAF4E8;
+    --parchment: #F0E6CC;
+    --ink:       #2A1F14;
+    --shadow:    rgba(0,0,0,0.45);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: #2a2318; font-family: 'EB Garamond', Georgia, serif; color: var(--ink); }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark);
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 24px; flex-wrap: wrap;
+    border-bottom: 2px solid var(--gold);
+  }
+  nav span { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 0.85rem; white-space: nowrap; }
+  nav a {
+    color: #d4c09a; font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: .07em;
+    text-transform: uppercase; text-decoration: none; padding: 3px 8px;
+    border: 1px solid #555; border-radius: 2px; transition: all .2s;
+  }
+  nav a:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+  /* ── PAGE WRAPPER ────────────────────────────────── */
+  .page {
+    max-width: 900px; margin: 36px auto; background: var(--cream);
+    box-shadow: 0 8px 48px var(--shadow);
+  }
+
+  /* ══════════════════════════════════════════════════
+     COVER
+  ══════════════════════════════════════════════════ */
+  #cover {
+    position: relative; width: 100%; height: 680px; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  #cover .bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1543002588-bfa74002ed7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080');
+    background-size: cover; background-position: center 30%;
+    filter: brightness(.55) saturate(.8);
+  }
+  #cover .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,.15) 0%, rgba(10,4,2,.75) 60%, rgba(10,4,2,.95) 100%);
+  }
+  #cover .content { position: relative; padding: 32px 48px 40px; color: #fff; }
+  #cover .issue-line {
+    font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+  }
+  #cover h1 {
+    font-family: 'Playfair Display', serif; font-size: 3.6rem; line-height: 1.05;
+    font-weight: 900; color: #fff; text-shadow: 2px 3px 12px rgba(0,0,0,.6);
+    margin-bottom: 6px;
+  }
+  #cover h1 em { font-style: italic; color: #e8c97a; }
+  #cover .subtitle {
+    font-family: 'EB Garamond', serif; font-size: 1.1rem; font-style: italic;
+    color: #d4bfa0; margin-bottom: 24px; letter-spacing: .04em;
+  }
+  #cover .teasers {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px;
+    border-top: 1px solid rgba(200,146,42,.45); padding-top: 18px;
+  }
+  #cover .teaser { font-family: 'Oswald', sans-serif; font-size: 0.78rem; letter-spacing: .08em; color: #e2d4b8; }
+  #cover .teaser strong { color: var(--gold); display: block; font-size: 0.85rem; }
+
+  .cover-badge {
+    position: absolute; top: 24px; right: 28px;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--crimson); border: 3px solid var(--gold);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #fff; font-family: 'Oswald', sans-serif; text-align: center; line-height: 1.2;
+  }
+  .cover-badge .big { font-size: 1.6rem; font-weight: 700; color: var(--gold); }
+  .cover-badge .small { font-size: 0.55rem; letter-spacing: .1em; text-transform: uppercase; }
+
+  /* ══════════════════════════════════════════════════
+     TABLE OF CONTENTS
+  ══════════════════════════════════════════════════ */
+  #toc {
+    background: var(--parchment); padding: 56px 64px;
+    border-top: 6px solid var(--crimson);
+  }
+  #toc h2 {
+    font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center;
+    color: var(--crimson); letter-spacing: .08em; text-transform: uppercase;
+    border-bottom: 2px solid var(--gold); padding-bottom: 12px; margin-bottom: 32px;
+  }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 48px; }
+  .toc-item {
+    display: flex; align-items: baseline; gap: 10px;
+    border-bottom: 1px dotted #bba98a; padding-bottom: 10px;
+  }
+  .toc-item .pg {
+    font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 600;
+    color: var(--crimson); min-width: 36px;
+  }
+  .toc-item .desc strong {
+    font-family: 'Playfair Display', serif; font-size: 0.95rem; display: block; color: var(--ink);
+  }
+  .toc-item .desc span { font-size: 0.8rem; font-style: italic; color: #6b5a48; }
+
+  .toc-note {
+    margin-top: 28px; text-align: center; font-size: 0.85rem; font-style: italic; color: #7a6a56;
+  }
+  .toc-image {
+    margin-top: 28px; text-align: center;
+  }
+  .toc-image img { width: 180px; height: 120px; object-fit: cover; border: 3px solid var(--gold); }
+
+  /* ── ARTICLE BASE STYLES ── */
+  article {
+    padding: 52px 64px 56px;
+    border-top: 6px solid var(--crimson);
+  }
+  article:nth-child(even) { background: #f5eedd; }
+
+  .article-label {
+    font-family: 'Oswald', sans-serif; font-size: 0.65rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--gold); background: var(--crimson);
+    display: inline-block; padding: 3px 10px; margin-bottom: 14px;
+  }
+  article h2 {
+    font-family: 'Playfair Display', serif; font-size: 2.5rem; line-height: 1.15;
+    font-weight: 900; color: var(--crimson); margin-bottom: 8px;
+  }
+  article .deck {
+    font-family: 'Libre Baskerville', serif; font-size: 1.0rem; color: #4a3828;
+    font-style: italic; margin-bottom: 24px; line-height: 1.55; border-left: 4px solid var(--gold); padding-left: 14px;
+  }
+
+  .byline {
+    font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: .18em;
+    text-transform: uppercase; color: #8a7060; margin-bottom: 28px;
+    border-bottom: 1px solid #c8b898; padding-bottom: 10px;
+  }
+
+  article p {
+    font-family: 'EB Garamond', serif; font-size: 1.05rem; line-height: 1.75;
+    color: var(--ink); margin-bottom: 14px; text-align: justify;
+  }
+  article h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
+    color: var(--crimson); margin: 24px 0 8px; text-transform: uppercase;
+    letter-spacing: .06em; font-style: italic;
+  }
+
+  /* Pull Quote */
+  .pull-quote {
+    float: right; clear: right;
+    width: 42%; margin: 8px 0 20px 28px;
+    border-top: 3px solid var(--crimson); border-bottom: 3px solid var(--crimson);
+    padding: 14px 18px;
+    font-family: 'Playfair Display', serif; font-size: 1.12rem; font-style: italic;
+    font-weight: 600; color: var(--crimson); line-height: 1.45; text-align: center;
+  }
+  .pull-quote::before { content: '\201C'; font-size: 3rem; line-height: 0.5; color: var(--gold); vertical-align: -0.6em; margin-right: 4px; }
+  .pull-quote small { font-size: 0.8rem; font-weight: 400; display: block; margin-top: 6px; color: #7a5a40; font-style: normal; }
+  .pull-quote.left { float: left; margin: 8px 28px 20px 0; }
+
+  /* Image in article */
+  .art-img {
+    margin: 22px 0; display: block; text-align: center;
+  }
+  .art-img img {
+    max-width: 100%; border: 3px solid var(--gold);
+    box-shadow: 4px 6px 20px rgba(0,0,0,.25);
+  }
+  .art-img figcaption {
+    font-size: 0.78rem; font-style: italic; color: #7a6a56; margin-top: 6px;
+  }
+
+  /* Two-column for articles */
+  .two-col {
+    columns: 2; column-gap: 36px; margin-top: 8px;
+  }
+
+  /* ── ARTICLE 1 specific ── */
+  .verdict-box {
+    background: var(--crimson); color: #fff; padding: 20px 24px;
+    margin-top: 28px; border-left: 6px solid var(--gold);
+  }
+  .verdict-box h4 {
+    font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+  }
+  .verdict-box p { font-size: 1.0rem; line-height: 1.6; color: #f5e8d4; margin: 0; text-align: left; }
+
+  /* ── ARTICLE 2 specific ── */
+  .rating-block {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--dark); color: #fff; padding: 18px 24px; margin: 20px 0;
+    border-left: 5px solid var(--gold);
+  }
+  .rating-score {
+    font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900;
+    color: var(--gold); line-height: 1; white-space: nowrap;
+  }
+  .rating-label { font-family: 'Oswald', sans-serif; font-size: 0.72rem; letter-spacing: .15em; text-transform: uppercase; }
+  .rating-label p { font-size: 0.9rem; font-family: 'EB Garamond', serif; font-style: italic; color: #cbbfa8; margin-top: 4px; letter-spacing: 0; }
+
+  .warn-list li, .plus-list li {
+    font-size: 1.0rem; font-family: 'EB Garamond', serif; line-height: 1.6; margin-bottom: 8px; margin-left: 20px;
+  }
+  .warn-list li::marker { color: var(--crimson); }
+  .plus-list li::marker { color: #3a7a3a; }
+
+  /* ── ARTICLE 3 specific ── */
+  .opinion-intro {
+    background: var(--dark); color: var(--gold); font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-style: italic; text-align: center; padding: 20px 32px;
+    margin-bottom: 24px; line-height: 1.4;
+  }
+
+  /* ── ARTICLE 4 specific ── */
+  .stars { color: var(--gold); font-size: 1.6rem; letter-spacing: 3px; }
+  .review-box {
+    border: 2px solid var(--gold); padding: 18px 22px; margin: 20px 0;
+    background: #fff8ec;
+  }
+  .review-box h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--crimson); margin-bottom: 6px; }
+
+  /* ── ARTICLE 5 specific ── */
+  .lesson {
+    margin: 22px 0; padding: 18px 22px 18px 18px;
+    border-left: 6px solid var(--crimson); background: #fff8ee;
+    display: grid; grid-template-columns: 52px 1fr; gap: 0 16px; align-items: start;
+  }
+  .lesson-num {
+    font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900;
+    color: var(--gold); line-height: 1; margin-top: -4px;
+  }
+  .lesson h4 { font-family: 'Oswald', sans-serif; font-size: 1.0rem; text-transform: uppercase; letter-spacing: .08em; color: var(--crimson); margin-bottom: 6px; }
+  .lesson p { font-size: 0.98rem; line-height: 1.65; margin-bottom: 6px; }
+  .lesson .novel-eg { font-size: 0.88rem; font-style: italic; color: #5a4a38; padding-left: 10px; border-left: 3px solid var(--gold); }
+  .lesson .modern { font-size: 0.88rem; color: #3a4a28; background: #eef4e4; padding: 5px 8px; border-radius: 3px; display: inline-block; margin-top: 5px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: #8a7860; padding: 24px 48px;
+    font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: .1em;
+    text-transform: uppercase; display: flex; justify-content: space-between;
+    border-top: 3px solid var(--crimson);
+  }
+  footer .ft-title { color: var(--gold); }
+
+  /* Clearfix */
+  .cf::after { content: ''; display: table; clear: both; }
+
+  @media (max-width: 680px) {
+    .page { margin: 0; }
+    article, #toc { padding: 36px 22px; }
+    #cover { height: 540px; }
+    #cover h1 { font-size: 2.2rem; }
+    #cover .content { padding: 20px 22px 28px; }
+    .pull-quote, .pull-quote.left { float: none; width: 100%; margin: 16px 0; }
+    .two-col { columns: 1; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .lesson { grid-template-columns: 1fr; }
+    .lesson-num { font-size: 1.8rem; }
+    .cover-badge { width: 60px; height: 60px; top: 12px; right: 14px; }
+    .cover-badge .big { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+<!-- STICKY NAV -->
+<nav>
+<span>✦ The Truth About Northanger Abbey  </span>
+<a href="#cover">Cover</a>
+<a href="#toc">Contents</a>
+<a href="#art1">Character</a>
+<a href="#art2">Friendship</a>
+<a href="#art3">Opinion</a>
+<a href="#art4">Book Review</a>
+<a href="#art5">Life Lessons</a>
+</nav>
+<div class="page">
+<!-- ════════════════════════════════════════════
+     FRONT COVER
+════════════════════════════════════════════ -->
+<section id="cover">
+<div class="bg"></div>
+<div class="overlay"></div>
+<div class="cover-badge">
+<span class="big">01</span>
+<span class="small">Issue One</span>
+</div>
+<div class="content">
+<div class="issue-line">The Literary Gazette  ·  June 2026  ·  Vol. I, Issue I</div>
+<h1>The Truth About<br/><em>Northanger Abbey</em></h1>
+<div class="subtitle">Secrets, rumors, and shattered illusions in Jane Austen's classic novel</div>
+<div class="teasers">
+<div class="teaser"><strong>Character Spotlight</strong>Who Is Not What They Seem?<br/><em>General Tilney Exposed</em></div>
+<div class="teaser"><strong>Friendship Review</strong>Is Isabella a True Friend?<br/><em>We Rate Her 3/10</em></div>
+<div class="teaser"><strong>Opinion Column</strong>Was Catherine Right to<br/>Suspect General Tilney?</div>
+<div class="teaser"><strong>Life Lessons</strong>5 Things Modern Teenagers<br/>Can Learn from Catherine</div>
+</div>
+</div>
+</section>
+<!-- ════════════════════════════════════════════
+     TABLE OF CONTENTS
+════════════════════════════════════════════ -->
+<section id="toc">
+<h2>Table of Contents</h2>
+<div class="toc-grid">
+<div class="toc-item">
+<div class="pg">2</div>
+<div class="desc">
+<strong>Character Spotlight</strong>
+<span>"Who Is Not What They Seem?" — General Tilney revealed</span>
+</div>
+</div>
+<div class="toc-item">
+<div class="pg">4</div>
+<div class="desc">
+<strong>Friendship Review</strong>
+<span>"Is Isabella a True Friend?" — Rating the unreliable friend</span>
+</div>
+</div>
+<div class="toc-item">
+<div class="pg">6</div>
+<div class="desc">
+<strong>Opinion Column</strong>
+<span>"Was Catherine Right to Suspect General Tilney?" — You decide</span>
+</div>
+</div>
+<div class="toc-item">
+<div class="pg">8</div>
+<div class="desc">
+<strong>Book Review</strong>
+<span>"Why Does Austen Make Fun of Gothic Novels?" — A clear literary critique</span>
+</div>
+</div>
+<div class="toc-item">
+<div class="pg">10</div>
+<div class="desc">
+<strong>Life Lessons</strong>
+<span>"What Can Modern Teenagers Learn from Catherine?" — 5 timeless lessons</span>
+</div>
+</div>
+</div>
+<div class="toc-image">
+<img alt="Quill and parchment" src="https://images.unsplash.com/photo-1447069387593-a5de0862481e?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;w=400"/>
+</div>
+<p class="toc-note"><em>"The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid."</em><br/>— Jane Austen, Northanger Abbey</p>
+</section>
+<!-- ════════════════════════════════════════════
+     ARTICLE 1 — CHARACTER SPOTLIGHT
+════════════════════════════════════════════ -->
+<article id="art1">
+<div class="article-label">Character Spotlight  ·  Page 2</div>
+<h2>General Tilney: Can We Trust Him?</h2>
+<p class="deck">He seemed nice and welcoming at first, but General Tilney was actually obsessed with money and social status. Here is a look at the real villain of the story.</p>
+<div class="byline">By Our Literary Correspondent  |  The Truth About Northanger Abbey</div>
+
+<h3>Introduction</h3>
+<p>General Tilney is a key character in Jane Austen's <em>Northanger Abbey</em>. As the father of Henry and Eleanor Tilney, he controls everything around him. At first, he looks like a perfect gentleman, but Austen slowly shows us his true colors.</p>
+
+<div class="pull-quote">"General Tilney, though so charming a man, seemed always a check upon his children's spirits."<small>— Jane Austen, Northanger Abbey</small></div>
+
+<h3>First Impressions</h3>
+<p>When Catherine meets General Tilney in Bath, his polite manners and grand presence impress her. He compliments her warmly and invites her to visit his home, Northanger Abbey. Catherine is flattered, but she misses a key detail: his children are unusually quiet and nervous whenever he is in the room.</p>
+
+<h3>The Reality</h3>
+<p>We later find out the General was only nice because he thought Catherine was rich. A local boaster named John Thorpe lied to him about her family's wealth. The General invited her over purely because he wanted his son to marry a wealthy woman.</p>
+<p>As soon as he finds out Catherine is actually from a modest background, his behavior changes completely. He kicks her out of Northanger Abbey immediately. He forces her to travel home alone with no warning or protection, which was a very cruel and dangerous move for a young woman at the time.</p>
+
+<h3>Evidence from the Novel</h3>
+<p><strong>Evidence 1:</strong> He invites Catherine to his home only after hearing rumors about her money. His kindness is sudden and fake.</p>
+<p><strong>Evidence 2:</strong> He controls everything at home, forcing his children to follow rigid schedules. His presence brings fear rather than love.</p>
+<p><strong>Evidence 3:</strong> When he learns the truth about her finances, he kicks her out without an apology and won't even let his daughter say a proper goodbye. This shows who he really is.</p>
+
+<div class="verdict-box">
+<h4>Final Verdict — Can General Tilney Be Trusted?</h4>
+<p>No. General Tilney cares only about money and status. Austen uses him to show that good manners do not make someone a good person. He is cold, controlling, and cruel. He is the real villain of the novel, proving that real-life bad guys are much more dangerous than imaginary monsters. Rating: 2 out of 5.</p>
+</div>
+</article>
+<!-- ════════════════════════════════════════════
+     ARTICLE 2 — FRIENDSHIP REVIEW
+════════════════════════════════════════════ -->
+<article id="art2">
+<div class="article-label">Friendship Review  ·  Page 4</div>
+<h2>Is Isabella a True Friend?</h2>
+<p class="deck">She was fun and enthusiastic, but Isabella's friendship came with a catch. Here is our review of Catherine's friend.</p>
+<div class="byline">By Our Society Correspondent  |  The Truth About Northanger Abbey</div>
+
+<div class="rating-block">
+<div class="rating-score">3/10</div>
+<div>
+<div class="rating-label">Friendship Rating — Isabella Thorpe
+<p>Isabella scores a low 3 out of 10. She acts charming at first, but her actions consistently hurt the people she claims to care about. She is a fun companion for shopping, but completely unreliable when it matters.</p>
+</div>
+</div>
+</div>
+
+<h3>Positive Qualities</h3>
+<p>Isabella makes a great first impression. She is lively, introduces Catherine to Gothic books, and fills their social calendar. She helps Catherine navigate the busy social scene in Bath, making her feel much more confident than she would have been on her own.</p>
+
+<ul class="plus-list">
+<li>Introduced Catherine to exciting Gothic novels</li>
+<li>Helped Catherine feel comfortable in big social settings</li>
+<li>Was fun and lively company at balls and parties</li>
+<li>Seemed genuinely interested in Catherine's happiness at first</li>
+</ul>
+
+<div class="pull-quote left">"There is nothing I would not do for those who are really my friends."<small>— Isabella Thorpe</small></div>
+
+<h3>Warning Signs</h3>
+<p>However, problems quickly show up. Isabella mostly talks about guys and fashion, often ignoring Catherine's real feelings. She constantly breaks promises, uses empty flattery, and says one thing while doing the exact opposite.</p>
+
+<ul class="warn-list">
+<li>Flirts with other men even after getting engaged to Catherine's brother</li>
+<li>Cancels plans with Catherine to hang out with richer men</li>
+<li>Uses fake praise to get what she wants from people</li>
+<li>Writes a manipulative letter asking Catherine to fix her relationship after she messed it up</li>
+</ul>
+
+<h3>Evidence from the Novel</h3>
+<p><strong>Evidence 1:</strong> She agrees to marry James Morland, but drops him the moment a wealthier guy, Captain Tilney, shows interest. Her engagement was about money, not love.</p>
+<p><strong>Evidence 2:</strong> She promises Catherine she will only dance with James, but later flirts and dances with Captain Tilney anyway, leaving Catherine hurt and confused.</p>
+<p><strong>Evidence 3:</strong> After James breaks off the engagement because of her flirting, she writes to Catherine and asks her to fix things. She expects Catherine to clean up her mess.</p>
+
+<div class="verdict-box">
+<h4>Final Verdict — Would You Recommend Isabella as a Friend?</h4>
+<p>No. Isabella is charming but completely disloyal. Her own goals always come first. A true friend, like Eleanor Tilney, is honest and kind even when it is hard. Isabella fails when things get tough. Choose your friends more carefully than Catherine did.</p>
+</div>
+</article>
+<!-- ════════════════════════════════════════════
+     ARTICLE 3 — OPINION COLUMN
+════════════════════════════════════════════ -->
+<article id="art3">
+<div class="article-label">Opinion Column  ·  Page 6</div>
+<h2>Was Catherine Right to Suspect General Tilney?</h2>
+<p class="deck">Catherine thought General Tilney murdered his wife based entirely on her love of scary books. Was she just being silly, or did she have a point?</p>
+<div class="byline">Opinion  |  The Truth About Northanger Abbey</div>
+
+<div class="opinion-intro">"Catherine's imagination led her to the wrong conclusion, but her gut feeling was right."</div>
+
+<h3>Introduction</h3>
+<p>Was Catherine right to suspect that General Tilney murdered his wife? This is the funniest and most dramatic part of the book. While she was totally wrong about the murder itself, her gut feeling that something was wrong with the General was actually correct.</p>
+
+<h3>Argument 1: Why Her Suspicions Made Sense</h3>
+<p>Northanger Abbey feels creepy to Catherine. It is an old building full of long corridors and dark rooms. The General is a cold, scary host who controls everyone and makes his children deeply nervous. He also refuses to talk about his late wife and keeps her portrait hidden. Since Catherine had been reading scary Gothic novels like <em>The Mysteries of Udolpho</em>, it makes sense that her imagination ran wild in a creepy house like that.</p>
+
+<div class="pull-quote">"The visions of romance were over. Catherine was completely awakened."<small>— Jane Austen, Northanger Abbey</small></div>
+
+<h3>Argument 2: Why She Was Wrong</h3>
+<p>However, Catherine had zero proof. She searched a mysterious cabinet and only found a regular laundry list. Her friend Henry Tilney eventually points out that real life isn't a horror movie. He reminds her that they live in a peaceful English town where secret crimes cannot be hidden from curious neighbors. The General is a bad guy, but he is definitely not a killer.</p>
+
+<h3>Conclusion</h3>
+<p>Catherine was wrong about the crime, but right about the man. Her wild imagination picked the wrong story, but her instincts correctly warned her that the General was dangerous. Austen is telling us to find a balance: enjoy your imagination, but always check the facts in real life.</p>
+</article>
+<!-- ════════════════════════════════════════════
+     ARTICLE 4 — BOOK REVIEW
+════════════════════════════════════════════ -->
+<article id="art4">
+<div class="article-label">Book Review  ·  Page 8</div>
+<h2>Why Does Austen Make Fun of Gothic Novels?</h2>
+<p class="deck">Jane Austen wrote <em>Northanger Abbey</em> partly as a parody of the horror books of her day. Why did she do it, and what was her point?</p>
+<div class="byline">Literary Criticism  |  The Truth About Northanger Abbey</div>
+
+<div class="review-box">
+<h4>Northanger Abbey by Jane Austen — Our Rating</h4>
+<div class="stars">★★★★☆</div>
+<p style="margin:6px 0 0; font-size:0.95rem;">4 out of 5 stars — A witty, intelligent novel that is far more than a simple parody</p>
+</div>
+
+<figure class="art-img">
+<img alt="Gothic abbey architecture" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;w=800"/>
+<figcaption>The creepy atmosphere of a Gothic novel is exactly what Catherine expects to find at Northanger Abbey.</figcaption>
+</figure>
+
+<h3>What Is a Gothic Novel?</h3>
+<p>In the late 1700s, Gothic novels were incredibly popular. They were the horror and thriller stories of their time. These books featured terrified girls, evil villains, secret passages, and dark, stormy nights. Austen loved reading them, but she also thought they were completely unrealistic and silly.</p>
+
+<h3>Catherine's Expectations</h3>
+<p>Because she reads so many of these books, Catherine expects a scary adventure at Northanger Abbey. She looks for hidden doors, secret diaries, and old chests. When she finds a black cabinet in her room, she is convinced it holds a dark family secret. She stays awake listening to normal house noises, turning them into horror stories in her mind.</p>
+
+<div class="pull-quote">"Charming as were all Mrs Radcliffe's works, it was not in them, perhaps, that human nature was to be looked for."<small>— Jane Austen, Northanger Abbey</small></div>
+
+<h3>What Actually Happens?</h3>
+<p>Real life turns out to be very normal. The mysterious cabinet contains nothing but an old laundry list. The spooky night noises are just the wind rattling the windows. Henry Tilney gently laughs at Catherine's wild theories, reminding her that secret murders simply do not happen in quiet English neighborhoods without anyone noticing.</p>
+
+<h3>Austen's Message</h3>
+<p>Austen isn't just making a simple joke. She is warning us not to let fiction ruin our common sense. Catherine is a good person, but her book addiction skews how she looks at real life. Austen argues that reading should help us understand the real world, not escape from it. That lesson is just as important today as it was back then.</p>
+</article>
+<!-- ════════════════════════════════════════════
+     ARTICLE 5 — LIFE LESSONS
+════════════════════════════════════════════ -->
+<article id="art5">
+<div class="article-label">Life Lessons  ·  Page 10</div>
+<h2>What Can Modern Teenagers Learn from Catherine?</h2>
+<p class="deck">Catherine Morland started out naive but grew into a smart young woman. Here are five simple lessons modern teens can learn from her journey.</p>
+<div class="byline">Self-Help &amp; Lifestyle  |  The Truth About Northanger Abbey</div>
+
+<p>At the start of the book, seventeen-year-old Catherine is too trusting and gets carried away by fictional stories. By the end, she grows up a lot. Here are five simple lessons from her story that apply to modern life.</p>
+
+<div class="lesson">
+<div class="lesson-num">1</div>
+<div>
+<h4>Don't Trust First Impressions</h4>
+<p>People are often very different from how they first appear. Those who try hard to impress you might have hidden motives, while quiet people might be the most reliable.</p>
+<p class="novel-eg"><em>In the novel:</em> General Tilney acts welcoming but is actually cruel. Isabella acts like a sweet friend but is completely selfish.</p>
+<p class="modern">Today: Take your time getting to know people. Do not assume someone is good just because they are charming when you first meet them.</p>
+</div>
+</div>
+
+<div class="lesson">
+<div class="lesson-num">2</div>
+<div>
+<h4>Choose Your Friends Carefully</h4>
+<p>A true friend is honest, loyal, and sticks by you when things get difficult. Don't just pick the person who is the most popular or fun to hang out with.</p>
+<p class="novel-eg"><em>In the novel:</em> Isabella is fun at parties but drops Catherine when it suits her. Eleanor is quieter but stays genuinely kind and loyal the entire time.</p>
+<p class="modern">Today: Look for friends who tell you the truth and support you, not just people who flatter you to look good on social media.</p>
+</div>
+</div>
+
+<div class="lesson">
+<div class="lesson-num">3</div>
+<div>
+<h4>Balance Imagination with Facts</h4>
+<p>An overactive imagination can cause you to make unfair assumptions and hurt innocent people. Always look for real proof before believing the worst.</p>
+<p class="novel-eg"><em>In the novel:</em> Catherine's love of scary books makes her believe the General is a murderer, even though she has absolutely zero evidence.</p>
+<p class="modern">Today: This is crucial in the age of the internet. Before you believe or share a wild story online, ask yourself if there are any real facts to support it.</p>
+</div>
+</div>
+
+<div class="lesson">
+<div class="lesson-num">4</div>
+<div>
+<h4>Admit Your Mistakes and Apologize</h4>
+<p>Everyone makes mistakes. What matters is how you handle it when you find out you were wrong. Owning up to your errors shows true maturity.</p>
+<p class="novel-eg"><em>In the novel:</em> When Catherine realizes she was wrong about the General, she doesn't make excuses. She honestly apologizes, which makes Henry respect her even more.</p>
+<p class="modern">Today: Saying "I was wrong, and I am sorry" is a sign of strength. People will trust you much more if you can admit your mistakes.</p>
+</div>
+</div>
+
+<div class="lesson">
+<div class="lesson-num">5</div>
+<div>
+<h4>Just Be Yourself</h4>
+<p>Catherine's best trait is her simple honesty. She never pretends to be richer, smarter, or more sophisticated than she actually is.</p>
+<p class="novel-eg"><em>In the novel:</em> Other characters are always faking things to impress society, but Catherine stays completely genuine, which is why Henry falls in love with her.</p>
+<p class="modern">Today: In a world full of fake online personas, being genuine is incredibly valuable. Staying true to yourself is always better than being impressively fake.</p>
+</div>
+</div>
+
+</article>
+<!-- FOOTER -->
+<footer>
+<span class="ft-title">The Truth About Northanger Abbey</span>
+<span>Vol. I, Issue I  ·  June 2026</span>
+<span>All literary analysis inspired by Jane Austen, 1817</span>
+</footer>
+</div><!-- .page -->
+</body>
+</html>
